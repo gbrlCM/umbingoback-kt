@@ -11,7 +11,7 @@ import javax.persistence.Table
 )
 @Table(name = "bingo")
 @Entity
-public class Bingo (
+class Bingo (
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, unique = true, nullable = false)
