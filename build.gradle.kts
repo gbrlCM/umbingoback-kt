@@ -37,6 +37,12 @@ tasks.withType<KotlinCompile> {
     }
 }
 
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "com.umbingo.umbingoback.UmbingobackApplication"
+    }
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
