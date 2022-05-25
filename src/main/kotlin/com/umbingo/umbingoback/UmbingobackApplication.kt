@@ -4,8 +4,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class UmbingobackApplication
-
-fun main(args: Array<String>) {
-    runApplication<UmbingobackApplication>(*args)
+class UmbingobackApplication {
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            runApplication<UmbingobackApplication>(*args)
+        }
+    }
 }
+
+
