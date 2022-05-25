@@ -3,6 +3,7 @@ package com.umbingo.umbingoback.controllers
 import com.umbingo.umbingoback.models.dto.BingoEditDto
 import com.umbingo.umbingoback.models.dto.BingoRegisterDto
 import com.umbingo.umbingoback.models.entities.Bingo
+import com.umbingo.umbingoback.models.entities.Theme
 import com.umbingo.umbingoback.models.repositories.BingoRepository
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -11,13 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.client.HttpClientErrorException
-import org.springframework.web.client.HttpServerErrorException
 
 @RestController
 class RegisterController(val repository: BingoRepository) {
 
     @PostMapping("/register")
     fun register(@RequestBody bingo: BingoRegisterDto): HttpStatus {
+        val theme = Theme.fromString(bingo.theme) ?: return HttpStatus.BAD_REQUEST
+
         val bingoRegistry = Bingo(
             id = null,
             name = bingo.name,
@@ -25,7 +27,7 @@ class RegisterController(val repository: BingoRepository) {
             description = bingo.description,
             words = bingo.words.toTypedArray(),
             creatorId = bingo.creatorId,
-            theme = bingo.theme
+            theme = Theme.toString(theme)
         )
 
         repository.save(bingoRegistry)
@@ -35,7 +37,14 @@ class RegisterController(val repository: BingoRepository) {
     @PatchMapping("/edit")
     fun edit(@RequestBody bingo: BingoEditDto): HttpStatus {
         val id = bingo.id ?: return HttpStatus.NOT_FOUND
-        var bingoRegistry = repository.findById(id)
+
+        bingo.theme?.let {
+            if (Theme.fromString(it) == null) {
+                return HttpStatus.BAD_REQUEST
+            }
+        }
+
+        val bingoRegistry = repository.findById(id)
             .orElseThrow {
                 throw HttpClientErrorException.create(HttpStatus.NOT_FOUND,
                     "not found",
