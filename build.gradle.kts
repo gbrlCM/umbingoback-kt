@@ -37,6 +37,14 @@ tasks.withType<KotlinCompile> {
     }
 }
 
+tasks.bootJar {
+    archiveClassifier.set("boot")
+}
+
+tasks.jar {
+    archiveClassifier.set("")
+}
+
 tasks.withType<Jar> {
     manifest {
         attributes["Main-Class"] = "com.umbingo.umbingoback.UmbingobackApplicationKt"
