@@ -16,6 +16,10 @@ repositories {
     mavenCentral()
 }
 
+springBoot {
+    mainClass.set("com.umbingo.umbingoback.UmbingobackApplicationKt")
+}
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -34,12 +38,6 @@ tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "1.8"
-    }
-}
-
-tasks.withType<Jar> {
-    manifest {
-        attributes["Main-Class"] = "com.umbingo.umbingoback.UmbingobackApplication"
     }
 }
 
