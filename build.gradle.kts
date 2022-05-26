@@ -45,12 +45,6 @@ tasks.jar {
     archiveClassifier.set("")
 }
 
-tasks.withType<Jar> {
-    manifest {
-        attributes["Main-Class"] = "com.umbingo.umbingoback.UmbingobackApplicationKt"
-    }
-}
-
 tasks.withType<Test> {
     useJUnitPlatform()
 }
